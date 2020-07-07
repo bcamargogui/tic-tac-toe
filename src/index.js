@@ -79,7 +79,31 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? 'Go to move # ' + move : 'Go to game start';
+      var desc = move ? 'Go to move # ' + move : 'Go to game start';
+      
+      // check whick moviment is (colXrow)
+      const beforeStep = history[move - 1];
+      if (beforeStep) {
+        beforeStep.squares.forEach((element, index) => {
+          const isSameValue = step.squares[index] === element;
+          if (!isSameValue) {
+            // get row action
+            const divide = index / 3;
+            let row;
+            if (divide <= 1) row = 1;
+            else if (divide <= 2) row = 2;
+            else row = 3;
+            // get col action
+            let col;
+            if (index <= 3) col = index;
+            else if (index <= 6) col = index - 3;
+            else col = index - 6;
+            // add coordinates info
+            desc += ` / Row: ${row}, Col: ${col+1}`;
+          }
+        });
+      }
+
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -117,7 +141,7 @@ ReactDOM.render(
 
 /** */
 function calculateWinner(squares) {
-  const lines = [
+  const winCombinnations = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -127,11 +151,17 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+
+  for (const combinnation of winCombinnations) {
+    const [a, b, c] = combinnation;
+    if (
+      squares[a]
+      && squares[a] === squares[b]
+      && squares[a] === squares[c]
+    ) {
       return squares[a];
     }
   }
+
   return null;
 }
