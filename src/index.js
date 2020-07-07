@@ -54,6 +54,7 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      historySort: true
     }
   }
 
@@ -79,6 +80,11 @@ class Game extends React.Component {
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
     });
+  }
+
+  sortHistory() {
+    // const history = this.state.history.slice().reverse();
+    this.setState({ sortHistory: !this.state.sortHistory });
   }
 
   render() {
@@ -139,7 +145,10 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div>
+            <button onClick={() => this.sortHistory()}>Sort</button>
+          </div>
+          <ol reversed={this.state.sortHistory}>{!this.state.sortHistory ? moves : moves.reverse()}</ol>
         </div>
       </div>
     );
