@@ -83,7 +83,6 @@ class Game extends React.Component {
   }
 
   sortHistory() {
-    // const history = this.state.history.slice().reverse();
     this.setState({ sortHistory: !this.state.sortHistory });
   }
 
