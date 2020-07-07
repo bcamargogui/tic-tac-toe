@@ -19,7 +19,7 @@ class Board extends React.Component {
       focused = winnerSequence.includes(i)
     }
 
-    return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} focused={focused} />;
+    return <Square key={i} value={this.props.squares[i]} onClick={() => this.props.onClick(i)} focused={focused} />;
   }
 
   renderCols(increment) {
@@ -36,7 +36,7 @@ class Board extends React.Component {
     for (let i = 0; i < 3; i++) {
       const squares = this.renderCols(i * 3);
       rows.push(
-        <div className="board-row">
+        <div className="board-row" key={`board-row-${i}`}>
           {squares}
         </div>
       )
